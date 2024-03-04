@@ -11,11 +11,12 @@ class AuthController {
 
   async signup(req, res, next) {
     const {
-      emailMobile,
-      profileFor,
+      email,
+      mobile,
       password,
       lat,
       lng,
+      type,
       deviceToken,
       deviceId,
       deviceType,
@@ -23,19 +24,19 @@ class AuthController {
 
     try {
       
-      let email = '', mobile = '';
+      let email_ = '', mobile_ = '';
 
-      let validEmail = isEmail(emailMobile);
-      let validMobile = isValidMobileNumber(emailMobile);
+      let validEmail = isEmail(email);
+      let validMobile = isValidMobileNumber(mobile);
 
-      let user = await User.findOne({ $or: [{ email: emailMobile }, { mobile: emailMobile }] })
+      let user = await User.findOne({ $or: [{ email: email }, { mobile: mobile }] })
 
       if (validEmail) {
-        email = emailMobile
+        email_ = email
       }
 
       if (validMobile) {
-        mobile = emailMobile
+        mobile_ = mobile
       }
 
       if(!validEmail && !validMobile) {
@@ -48,14 +49,14 @@ class AuthController {
         const hashedPassword = await bcrypt.hash(password, 10);
         const emailToken = randomString(12);
         const newUser = new User({
-          email : email,
-          mobile: mobile,
+          email : email_,
+          mobile: mobile_,
           password: hashedPassword,
-          profileFor,
           otp,
           deviceToken,
           deviceId,
           deviceType,
+          type,
           loc: { coordinates: [lng, lat] },
           authTokenIssuedAt: utcDateTime().valueOf(),
           emailToken,
@@ -89,13 +90,13 @@ class AuthController {
         const hashedPassword = await bcrypt.hash(password, 10);
         const emailToken = randomString(12);
         const newUser = new User({
-          email : email,
-          mobile: mobile,
+          email : email_,
+          mobile: mobile_,
           password: hashedPassword,
           otp,
-          profileFor,
           deviceToken,
           deviceId,
+          type,
           deviceType,
           loc: { coordinates: [lng, lat] },
           authTokenIssuedAt: utcDateTime().valueOf(),
@@ -138,10 +139,10 @@ class AuthController {
   }
 
   async verifyOtp(req, res, next) {
-    const { otp, emailMobile, token } = req.body;
+    const { otp, email,mobile, token } = req.body;
     try {
 
-      let user = await User.findOne({ $or: [{ email: emailMobile }, { mobile: emailMobile }]  });
+      let user = await User.findOne({ $or: [{ email: email }, { mobile: mobile }]  });
 
       if (!user) {
         return res.status(401).json({ success: false, msg: "UNAUTHORIZED", data: {} });
@@ -185,7 +186,8 @@ class AuthController {
   async logIn(req, res, next) {
     try {
       const {
-        emailMobile,
+        email,
+        mobile,
         password,
         lat,
         lng,
@@ -194,7 +196,7 @@ class AuthController {
         deviceType,
       } = req.body;
 
-      let user = await User.findOne({ $or: [{ email: emailMobile }, { mobile: emailMobile }], isVerified: true})
+      let user = await User.findOne({ $or: [{ email: email }, { mobile: mobile }], isVerified: true})
       if (!user) {
         return res.status(404).json({ success: false, msg: "User not found", data: {} });
       }
@@ -235,6 +237,31 @@ class AuthController {
     } catch (err) {
       console.log(err);
       return next(err);
+    }
+  }
+  async profile(req,res,next){
+    try{
+      let userId = req.user._id;
+      let {Aadhar,pan,GST,address} = req.body;
+      let user = await User.findOne({_id:userId});
+      if(user){
+        user.Aadhar = Aadhar;
+        user.pan = pan;
+        user.GST = GST;
+        user.address = address;
+        let responseData = await User(user).save();
+        return res.status(200).send({
+          data:responseData,
+          message:"profile update successfully"
+        })
+      }else{
+        return res.status(404).send({
+          message:"User node found"
+        })
+      }
+
+    }catch(err){
+      return next(err)
     }
   }
 

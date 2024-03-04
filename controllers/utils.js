@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const { User } = require('./../db/models/User.model')
-
+const cache = require('memory-cache');
 const signJWT = (user) => {
 
   const payload = {
@@ -59,4 +59,16 @@ const verifyJWT = (req, res, next) => {
 
 }
 
-module.exports = { signJWT, verifyJWT }
+const cacheMiddleware = (req, res, next) => {
+  const key = req.query.query;
+  const cachedResult = cache.get(key);
+
+  if (cachedResult) {
+    console.log('Result retrieved from cache');
+    res.json(cachedResult);
+  } else {
+    next();
+  }
+};
+
+module.exports = { signJWT, verifyJWT,cacheMiddleware}
