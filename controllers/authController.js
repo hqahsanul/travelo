@@ -11,9 +11,9 @@ class AuthController {
 
   async signup(req, res, next) {
     const {
+      name,
       email,
       mobile,
-      password,
       lat,
       lng,
       type,
@@ -46,12 +46,11 @@ class AuthController {
       if (!user) {
         // const otp = generateOtp();
         const otp = '1234';
-        const hashedPassword = await bcrypt.hash(password, 10);
         const emailToken = randomString(12);
         const newUser = new User({
           email : email_,
           mobile: mobile_,
-          password: hashedPassword,
+          name,
           otp,
           deviceToken,
           deviceId,
@@ -74,12 +73,11 @@ class AuthController {
         await User.deleteOne({ _id: user._id });
           // const otp = generateOtp();
           const otp = '1234';
-        const hashedPassword = await bcrypt.hash(password, 10);
         const emailToken = randomString(12);
         const newUser = new User({
           email : email_,
           mobile: mobile_,
-          password: hashedPassword,
+          name,
           otp,
           deviceToken,
           deviceId,
@@ -93,7 +91,7 @@ class AuthController {
 
         let savedUser = await newUser.save();
         let userJson = savedUser.toJSON();
-          ['password','schoolCode','authTokenIssuedAt','otp','verify_token','__v'].forEach(key => delete userJson[key]);
+          ['schoolCode','authTokenIssuedAt','otp','verify_token','__v'].forEach(key => delete userJson[key]);
           return res.success({token: emailToken, user: userJson },'Please verify otp for successful registration');
 
       }
@@ -156,7 +154,6 @@ class AuthController {
     try {
       const {
         email,
-        mobile,
         lat,
         lng,
         deviceToken,
@@ -164,7 +161,7 @@ class AuthController {
         deviceType,
       } = req.body;
 
-      let user = await User.findOne({ $or: [{ email: email }, { mobile: mobile }], isVerified: true})
+      let user = await User.findOne({ $or: [{ email: email }], isVerified: true})
       if (!user) {
         return res.status(404).json({ success: false, msg: "User not found", data: {} });
       }
@@ -181,8 +178,6 @@ class AuthController {
       user.loc = { coordinates: [lng, lat] };
       let savedUser=await user.save();
       const userJson = savedUser.toJSON();
-
-      delete userJson.password;
       delete userJson.authTokenIssuedAt;
       delete userJson.otp;
       delete userJson.resetToken;
