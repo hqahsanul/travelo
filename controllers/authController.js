@@ -65,23 +65,10 @@ class AuthController {
 
         // Save the new user
         let savedUser = await newUser.save();
+        let userJson = savedUser.toJSON();
+        ['password','schoolCode','authTokenIssuedAt','otp','verify_token','__v'].forEach(key => delete userJson[key]);
+        return res.success({token: emailToken, user: userJson },'Please verify otp for successful registration');
 
-        if(mobile){
-            // Send OTP asynchronously
-          
-            const newUserResult = await newUser.save()
-    
-            const userJson = newUserResult.toJSON();
-            ["password", "authTokenIssuedAt", "otp", "emailToken", "__v"].forEach((key) => delete userJson[key] );
-
-            return res.success({ token: emailToken, user: userJson },"Please verify OTP to complete registration");
-        } 
-        else {
-            
-          let userJson = savedUser.toJSON();
-          ['password','schoolCode','authTokenIssuedAt','otp','verify_token','__v'].forEach(key => delete userJson[key]);
-          return res.success({token: emailToken, user: userJson },'Please verify otp for successful registration');                   
-        }
       }
       else if(user && !user.isVerified) {
         await User.deleteOne({ _id: user._id });
@@ -104,28 +91,10 @@ class AuthController {
           isVerified: false,
         });
 
-        // Save the new user
         let savedUser = await newUser.save();
-
-        if(mobile){
-           
-            const newUserResult = await newUser.save()
-    
-            const userJson = newUserResult.toJSON();
-            ["password", "authTokenIssuedAt", "otp", "emailToken", "__v"].forEach(
-              (key) => delete userJson[key]
-            );
-
-            return res.success({ token: emailToken, user: userJson },"Please verify OTP to complete registration");
-        } 
-        else {
-
-          let userJson = savedUser.toJSON();
+        let userJson = savedUser.toJSON();
           ['password','schoolCode','authTokenIssuedAt','otp','verify_token','__v'].forEach(key => delete userJson[key]);
           return res.success({token: emailToken, user: userJson },'Please verify otp for successful registration');
-            
-                                
-        }
 
       }
       else {
@@ -188,7 +157,6 @@ class AuthController {
       const {
         email,
         mobile,
-        password,
         lat,
         lng,
         deviceToken,
@@ -204,36 +172,23 @@ class AuthController {
         return res.status(403).json({ success: false, msg: "Account suspended from admin", data: {} });
       }
 
-      const passwordMatch = bcrypt.compareSync(password, user.password);
-
-      if (!passwordMatch) {
-        return res.status(401).json({ success: false, msg: "Invalid credentials", data: {} });
-      }
-
+     const emailToken = randomString(12);
       user.authTokenIssuedAt = utcDateTime().valueOf();
       user.deviceToken = deviceToken;
+      user.emailToken=emailToken;
       user.deviceId = deviceId;
       user.deviceType = deviceType;
       user.loc = { coordinates: [lng, lat] };
-      await user.save();
-      const userJson = user.toJSON();
-
-      const jwttoken = signJWT(userJson);
+      let savedUser=await user.save();
+      const userJson = savedUser.toJSON();
 
       delete userJson.password;
       delete userJson.authTokenIssuedAt;
       delete userJson.otp;
       delete userJson.resetToken;
       delete userJson.__v;
-
-      userJson.jwt = jwttoken;
-      let progress =  userJson.progress
-      let validProgress = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
-      if(validProgress.includes(progress)){
-        return res.success({ progress: progress, user: userJson }, "Login success.Please complete your profile");
-      }
-      return res.success({ progress: progress, user: userJson }, "Login success");
+      return res.success({token: emailToken, user: userJson },'Please verify otp for login');
+    
     } catch (err) {
       console.log(err);
       return next(err);
