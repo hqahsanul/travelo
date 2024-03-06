@@ -7,7 +7,7 @@ const userSchema = new Schema({
     type: { type: String, enum: ['agent', 'user',"admin"],required:true},
     mobile: { type: String,  index:true },
     email: { type: String,  index:true },
-    password: { type: String, required: true},
+    password: { type: String},
     avatar:{ type: String, default: ''},
     otp:{ type: String, default: '1234'},
     resetToken: { type: String,default: '' },

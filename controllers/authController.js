@@ -10,100 +10,51 @@ sendGridMail.setApiKey(process.env.SENDGRID_API_KEY);
 class AuthController {
 
   async signup(req, res, next) {
-    const {
-      name,
-      email,
-      mobile,
-      lat,
-      lng,
-      type,
-      deviceToken,
-      deviceId,
-      deviceType,
-    } = req.body;
-
-    try {
-      
-      let email_ = '', mobile_ = '';
-
-      let validEmail = isEmail(email);
-      let validMobile = isValidMobileNumber(mobile);
-
-      let user = await User.findOne({ $or: [{ email: email }, { mobile: mobile }] })
-
-      if (validEmail) {
-        email_ = email
-      }
-
-      if (validMobile) {
-        mobile_ = mobile
-      }
-
-      if(!validEmail && !validMobile) {
-        return res.status(400).send({ success: false, msg: 'Invalid email or mobile', data: {} })
-      }
-
-      if (!user) {
-        // const otp = generateOtp();
-        const otp = '1234';
-        const emailToken = randomString(12);
-        const newUser = new User({
-          email : email_,
-          mobile: mobile_,
-          name,
-          otp,
-          deviceToken,
-          deviceId,
-          deviceType,
-          type,
-          loc: { coordinates: [lng, lat] },
-          authTokenIssuedAt: utcDateTime().valueOf(),
-          emailToken,
-          isVerified: false,
-        });
-
-        // Save the new user
-        let savedUser = await newUser.save();
-        let userJson = savedUser.toJSON();
-        ['password','schoolCode','authTokenIssuedAt','otp','verify_token','__v'].forEach(key => delete userJson[key]);
-        return res.success({token: emailToken, user: userJson },'Please verify otp for successful registration');
-
-      }
-      else if(user && !user.isVerified) {
-        await User.deleteOne({ _id: user._id });
-          // const otp = generateOtp();
-          const otp = '1234';
-        const emailToken = randomString(12);
-        const newUser = new User({
-          email : email_,
-          mobile: mobile_,
-          name,
-          otp,
-          deviceToken,
-          deviceId,
-          type,
-          deviceType,
-          loc: { coordinates: [lng, lat] },
-          authTokenIssuedAt: utcDateTime().valueOf(),
-          emailToken,
-          isVerified: false,
-        });
-
-        let savedUser = await newUser.save();
-        let userJson = savedUser.toJSON();
-          ['schoolCode','authTokenIssuedAt','otp','verify_token','__v'].forEach(key => delete userJson[key]);
-          return res.success({token: emailToken, user: userJson },'Please verify otp for successful registration');
-
-      }
-      else {
-        return res.status(403).send({ success: false, msg: "User already exist", data: {} })
-      }
-
-    } catch (err) {
-      console.error(err);
-      return next(err);
+    const { name, email, mobile, lat, lng, type, deviceToken, deviceId, deviceType } = req.body;
+  
+    const validEmail = isEmail(email);
+    const validMobile = isValidMobileNumber(mobile);
+  
+    if (!validEmail && !validMobile) {
+      return res.status(400).send({ success: false, msg: 'Invalid email or mobile', data: {} });
     }
+    //const otp = generateOtp();
+    const otp = '1234';
+    const emailToken = randomString(12);
+  
+    const user = await User.findOneAndUpdate(
+      { $or: [{ email: email }, { mobile: mobile }] },
+      {
+        $setOnInsert: {
+          email: validEmail ? email : '',
+          mobile: validMobile ? mobile : '',
+          name,
+          deviceToken,
+          deviceId,
+          type,
+          deviceType,
+          loc: { coordinates: [lng, lat] },
+          authTokenIssuedAt: utcDateTime().valueOf(),
+          isVerified: false,
+        },
+        $set: {
+          otp,
+          emailToken,
+        },
+      },
+      { upsert: true, new: true, setDefaultsOnInsert: true }
+    );
+  
+    if (!user) {
+      return res.status(403).send({ success: false, msg: 'User already exists', data: {} });
+    }
+  
+    const userJson = user.toJSON();
+    ['schoolCode', 'authTokenIssuedAt', 'otp', 'verify_token', '__v'].forEach((key) => delete userJson[key]);
+  
+    return res.success({ token: user.emailToken, user: userJson }, 'Please verify otp for successful registration');
   }
+  
 
   async verifyOtp(req, res, next) {
     const { otp, email,mobile, token } = req.body;
@@ -161,7 +112,7 @@ class AuthController {
         deviceType,
       } = req.body;
 
-      let user = await User.findOne({ $or: [{ email: email }], isVerified: true})
+      let user = await User.findOne({ email: email})
       if (!user) {
         return res.status(404).json({ success: false, msg: "User not found", data: {} });
       }
