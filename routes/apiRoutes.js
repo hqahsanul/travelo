@@ -13,8 +13,8 @@ router.post('/log-in',AuthController.logIn);
 router.post('/profile', verifyJWT, AuthController.profile);
 
 
-router.get('/search', [verifyJWT,cacheMiddleware], AirportController.search);
-
+router.get('/search', [cacheMiddleware], AirportController.search);
+router.get('/search-flight', AirportController.searchFlight);
 
 
 
