@@ -19,7 +19,7 @@ class airportController {
           { City: { $regex: new RegExp(query, 'i') } },
           { Country: { $regex: new RegExp(query, 'i') } },
         ],
-      });
+      }).limit(10);
       cache.put(query, result, 60 * 1000);
       return res.status(200).send({ result });
 
@@ -29,7 +29,7 @@ class airportController {
   }
 
   async searchFlight(req, res, next) {
-    const { AdultCount, ChildCount, InfantCount, JourneyType, PreferredAirlines, CabinClass, Segments } = req.body;
+    const { AdultCount, ChildCount, InfantCount, JourneyType, PreferredAirlines, CabinClass, Segments } = req.query;
   
     const options = {
       method: 'POST',
