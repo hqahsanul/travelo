@@ -14,8 +14,8 @@ class airportController {
           { City: { $regex: new RegExp(query, 'i') } },
           { Country: { $regex: new RegExp(query, 'i') } },
         ],
-      }).limit(10);
-      cache.put(query, result, 60 * 1000);
+      }).limit(20);
+   //   cache.put(query, result, 60 * 1000);
       return res.status(200).send({ result });
 
     } catch (err) {

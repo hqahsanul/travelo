@@ -30,12 +30,10 @@ router.get('/search-flight', AirportController.searchFlight);
 
 //=---------------------------------------------Hotel----------------------------------
 
-router.post('/save-city', HotelController.SaveCity);
-// router.get('/search-hotel', [cacheMiddleware], HotelController.search);
-// router.get('/search-hotel-flight', HotelController.searchFlight);
-// router.get('/search-hotel-hotel', HotelController.searchHotel);
-// router.get('/search-hotel-hotel-flight', HotelController.searchHotelFlight);
-// router.get('/search-hotel-hotel-hotel', HotelController.searchHotelHotel);
+// router.post('/save-city', HotelController.SaveCity);
+router.get('/search-city', [cacheMiddleware], HotelController.search);
+// router.get('/search-hotel', HotelController.searchHotel);
+
 
 
 
