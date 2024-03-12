@@ -1,12 +1,7 @@
-const { signJWT } = require("./utils");
-const { generateOtp, randomString, utcDateTime } = require("../lib/util");
 const { Airport } = require("../db/models/airport.model");
 const cache = require('memory-cache');
 var request = require("request");
-const bcrypt = require("bcryptjs");
-const sendGridMail = require('@sendgrid/mail');
-const fromMail = process.env.FROM_MAIL;
-sendGridMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 
 class airportController {
   async search(req, res, next) {
