@@ -76,15 +76,25 @@ class hotelController {
             'Content-Type': 'application/json',
           },
             body: JSON.stringify({
-                "CheckInDate": CheckInDate,
-                "NoOfNights": NoOfNights,
-                "CountryCode": CountryCode,
-                "CityId": CityId,
-                "GuestNationality": GuestNationality,
-                "NoOfRooms": NoOfRooms,
+                "CheckInDate": "27-03-2024",
+                "NoOfNights": 1,
+                "CountryCode": "IN",
+                "CityId": 5100,
+                "GuestNationality": "IN",
+                "NoOfRooms": 2,
                 "RoomGuests": _RoomGuests
             }),
         };
+
+        // body: JSON.stringify({
+        //     "CheckInDate": CheckInDate,
+        //     "NoOfNights": NoOfNights,
+        //     "CountryCode": CountryCode,
+        //     "CityId": CityId,
+        //     "GuestNationality": GuestNationality,
+        //     "NoOfRooms": NoOfRooms,
+        //     "RoomGuests": _RoomGuests
+        // }),
       
         request(options, (error, response, body) => {
           if (error) {
