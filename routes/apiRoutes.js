@@ -32,7 +32,7 @@ router.get('/search-flight', AirportController.searchFlight);
 
 // router.post('/save-city', HotelController.SaveCity);
 router.get('/search-city', [cacheMiddleware], HotelController.search);
-// router.get('/search-hotel', HotelController.searchHotel);
+router.get('/search-hotel', HotelController.searchHotel);
 
 
 

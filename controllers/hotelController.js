@@ -2,7 +2,7 @@
 const cache = require('memory-cache');
 var request = require("request");
 const { HotelCity } = require("../db/models/hotel.model");
-
+const { Travelo_HOST,X_USERNAME,X_DOMAIN_KEY,X_PASSWORD,X_SYSTEM}=process.env;
 
 class hotelController {
 
@@ -49,11 +49,60 @@ class hotelController {
             return next(err)
         }
     }
+    async searchHotel(req, res, next) {
+        const { RoomGuests, CheckInDate, NoOfNights, CountryCode, CityId,GuestNationality,NoOfRooms } = req.query;
+      const _RoomGuests=[
+        {
+            "NoOfAdults": 1,
+            "NoOfChild": 2,
+            "ChildAge": [
+                "4",
+                "6"
+            ]
+        },
+        {
+            "NoOfAdults": 1,
+            "NoOfChild": 0
+        }
+      ]
+        const options = {
+          method: 'POST',
+          url: `${Travelo_HOST}/hotel_v3/service/Search`,
+          headers: {
+            'x-Username': process.env.X_USERNAME,
+            'x-DomainKey': process.env.X_DOMAIN_KEY,
+            'x-Password': process.env.X_PASSWORD,
+            'x-system': process.env.X_SYSTEM,
+            'Content-Type': 'application/json',
+          },
+            body: JSON.stringify({
+                "CheckInDate": CheckInDate,
+                "NoOfNights": NoOfNights,
+                "CountryCode": CountryCode,
+                "CityId": CityId,
+                "GuestNationality": GuestNationality,
+                "NoOfRooms": NoOfRooms,
+                "RoomGuests": _RoomGuests
+            }),
+        };
+      
+        request(options, (error, response, body) => {
+          if (error) {
+            return res.status(500).json({ error: 'Internal Server Error' });
+          }
+         const data=JSON.parse(body);
+          return res.status(200).send({ data });
+        });
+     
+     }
+
 
     
 }
 
 module.exports = new hotelController();
+
+
 
 
 
