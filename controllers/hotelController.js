@@ -453,7 +453,167 @@ class hotelController {
           if (error) {
             return res.status(500).json({ error: 'Internal Server Error' });
           }
-         const data=JSON.parse(body);
+         let  data=JSON.parse(body);
+         data={
+          "Status": 1,
+          "Message": "",
+          "HotelDetails": {
+              "HotelInfoResult": {
+                  "HotelDetails": {
+                      "HotelCode": "1030626",
+                      "HotelName": "Aravi Hotel Dubai",
+                      "StarRating": 4,
+                      "HotelFacilities": [
+                          "Wheelchair-accessible spa",
+                          "Wheelchair-accessible pool",
+                          "Wheelchair-accessible fitness center",
+                          "Free newspapers in lobby",
+                          "Wheelchair-accessible registration desk",
+                          "Multilingual staff",
+                          "Wheelchair-accessible path to elevator",
+                          "Wheelchair-accessible van parking",
+                          "In-room accessibility",
+                          "Wheelchair-accessible concierge desk",
+                          "Wheelchair accessible parking",
+                          "Wheelchair-accessible public washroom",
+                          "Roll-in shower",
+                          "Accessible bathroom",
+                          "Wheelchair accessible path of travel",
+                          "Laundry facilities",
+                          "Breakfast available (surcharge)",
+                          "Water skiing nearby",
+                          "Area shuttle (surcharge)",
+                          "Spa services on site",
+                          "Safe-deposit box at front desk",
+                          "Children's pool",
+                          "Number of coffee shops/cafes - 1",
+                          "Health club",
+                          "Sauna",
+                          "Pool sun loungers",
+                          "Free WiFi",
+                          "Steam room",
+                          "Tours/ticket assistance",
+                          "Number of poolside bars - 1",
+                          "Number of bars/lounges - 4",
+                          "Pool umbrellas",
+                          "Wheelchair accessible (may have limitations)",
+                          "Windsurfing nearby",
+                          "Designated smoking areas",
+                          "Concierge services",
+                          "Hair salon",
+                          "Luggage storage",
+                          "Number of meeting rooms - 1",
+                          "Wheelchair accessible",
+                          "Valet parking (surcharge)",
+                          "Dry cleaning/laundry service",
+                          "24-hour front desk",
+                          "Health or beauty spa nearby",
+                          "Well-lit path to entrance",
+                          "Fitness facilities",
+                          "elevator",
+                          "Wheelchairs available on site",
+                          "Shopping center shuttle (surcharge)",
+                          "Number of outdoor pools - 1",
+                          "Wheelchair-accessible lounge",
+                          "Wheelchair-accessible on-site restaurant"
+                      ],
+                      "Description": "<p>HeadLine : In Dubai (Deira)</p><p>Location : With a stay at Aravi Hotel, you ll be centrally located in Dubai, within a 15-minute drive of Gold Souk and Fish Roundabout.  This 4-star hotel is 6.7 mi (10.8 km) from Dubai Mall and 6.9 mi (11.1 km) from Burj Khalifa.</p><p>Rooms : Make yourself at home in one of the 170 air-conditioned rooms featuring minibars and LCD televisions. Complimentary wireless Internet access keeps you connected, and cable programming is available for your entertainment. Bathrooms feature shower/tub combinations with rainfall showerheads and complimentary toiletries. Conveniences include phones, as well as safes and desks.</p><p>Dining : All-inclusive rates are available at this hotel. Meals and beverages at onsite dining establishments are included in all-inclusive rates. Charges may be applied for dining at some restaurants, special dinners and dishes, some beverages, and other amenities. <p>Stop by the hotel s restaurant, Olive Tree Restaurant, for lunch or dinner. Dining is also available at the coffee shop/cafe, and 24-hour room service is provided. Relax with a refreshing drink from the poolside bar or one of the 4 bars/lounges. Buffet breakfasts are available daily from 7:00 AM to 10:30 AM for a fee. </p></p><p>CheckIn Instructions : <ul>  <li>Extra-person charges may apply and vary depending on property policy</li><li>Government-issued photo identification and a credit card, debit card, or cash deposit may be required at check-in for incidental charges</li><li>Special requests are subject to availability upon check-in and may incur additional charges; special requests cannot be guaranteed</li><li>Safety features at this property include a fire extinguisher, a smoke detector, a security system, and a first aid kit</li><li>Be prepared: check the latest COVID-19 travel requirements and measures in place for this destination before you travel.</li><li>Please note that cultural norms and guest policies may differ by country and by property; the policies listed are provided by the property</li>  </ul></p><p>Special Instructions : To make arrangements for check-in please contact the property at least 24 hours before arrival using the information on the booking confirmation. Guests will be asked to provide the property with a copy of their government-issued photo ID before arrival. Guests must contact the property in advance for check-in instructions. Front desk staff will greet guests on arrival. This property can only accept bookings for essential travel or stays. You may be asked to provide evidence of this on arrival. For more information, check local advisories before you book.</p>&nbsp;<br/><b>Disclaimer notification: Amenities are subject to availability and may be chargeable as per the hotel policy.</b>&nbsp; <br />",
+                      "Images": [
+                          "http://i.travelapi.com/hotels/1000000/980000/977000/976996/d011c805_z.jpg",
+                          "http://i.travelapi.com/hotels/1000000/980000/977000/976996/38981845_z.jpg",
+                          "http://i.travelapi.com/hotels/1000000/980000/977000/976996/79bec435_z.jpg",
+                          "http://i.travelapi.com/hotels/1000000/980000/977000/976996/c611bbec_z.jpg",
+                          "http://i.travelapi.com/hotels/1000000/980000/977000/976996/c0a953cb_z.jpg",
+                          "http://i.travelapi.com/hotels/1000000/980000/977000/976996/82981cf4_z.jpg",
+                          "http://i.travelapi.com/hotels/1000000/980000/977000/976996/70cfbeaa_z.jpg",
+                          "http://i.travelapi.com/hotels/1000000/980000/977000/976996/76162287_z.jpg",
+                          "http://i.travelapi.com/hotels/1000000/980000/977000/976996/ca5cfe23_z.jpg",
+                          "http://i.travelapi.com/hotels/1000000/980000/977000/976996/00f820ef_z.jpg",
+                          "http://i.travelapi.com/hotels/1000000/980000/977000/976996/c534d649_z.jpg",
+                          "http://i.travelapi.com/hotels/1000000/980000/977000/976996/4f26c56d_z.jpg",
+                          "http://i.travelapi.com/hotels/1000000/980000/977000/976996/afe51850_z.jpg",
+                          "http://i.travelapi.com/hotels/1000000/980000/977000/976996/32255a34_z.jpg",
+                          "http://i.travelapi.com/hotels/1000000/980000/977000/976996/b306ede5_z.jpg",
+                          "http://i.travelapi.com/hotels/1000000/980000/977000/976996/c3f1f93a_z.jpg",
+                          "http://i.travelapi.com/hotels/1000000/980000/977000/976996/dc6655b0_z.jpg",
+                          "http://i.travelapi.com/hotels/1000000/980000/977000/976996/8e9cea38_z.jpg",
+                          "http://i.travelapi.com/hotels/1000000/980000/977000/976996/33a41301_z.jpg",
+                          "http://i.travelapi.com/hotels/1000000/980000/977000/976996/8e07bc1d_z.jpg",
+                          "http://i.travelapi.com/hotels/1000000/980000/977000/976996/11046bc5_z.jpg"
+                      ],
+                      "Attractions": [
+                          {
+                              "Key": "1) ",
+                              "Value": "Distances are displayed to the nearest 0.1 mile and kilometer. <br /> <p>Deira Clocktower - 0.3 km / 0.2 mi <br /> Dubai Creek - 1.2 km / 0.7 mi <br /> City Centre Deira - 1.3 km / 0.8 mi <br /> Al Ghurair Centre - 1.3 km / 0.8 mi <br /> Reef Mall - 1.4 km / 0.8 mi <br /> Creek Park - 1.4 km / 0.9 mi <br /> Fish Roundabout - 1.9 km / 1.2 mi <br /> Palm Islands - 2.3 km / 1.5 mi <br /> Deira Twin Towers Shopping Centre - 2.3 km / 1.5 mi <br /> Naif Souq - 3 km / 1.9 mi <br /> Dubai Tennis Stadium - 3.4 km / 2.1 mi <br /> Spice Souk - 3.5 km / 2.1 mi <br /> BurJuman Mall - 3.5 km / 2.2 mi <br /> Perfume Souq - 3.5 km / 2.2 mi <br /> Deira Spice Souq - 3.6 km / 2.2 mi <br /> </p><p>The nearest airports are:<br />Dubai Intl. Airport (DXB) - 4.6 km / 2.9 mi<br /> Sharjah (SHJ-Sharjah Intl.) - 28.8 km / 17.9 mi<br /> Al Maktoum Intl. Airport (DWC) - 65.8 km / 40.9 mi<br /> </p><p>The preferred airport for Aravi Hotel is Dubai Intl. Airport (DXB). </p>"
+                          }
+                      ],
+                      "HotelURL": null,
+                      "HotelPolicy": null,
+                      "SpecialInstructions": null,
+                      "Address": "162 Abu Baker Al Siddique Rd next to Al Rigga Post Office, Deira, Deira, Dubai, 50400, United Arab Emirates, United Arab Emirates",
+                      "HotelContactNo": [
+                          {
+                              "type": "Voice",
+                              "number": "97-142-956666"
+                          },
+                          {
+                              "type": "Fax",
+                              "number": "971-4-295 96 59"
+                          }
+                      ],
+                      "Latitude": "25.26035",
+                      "Longitude": "55.326695",
+                      "HotelCategoryName": "Hotel",
+                      "PopularFacilities": [
+                          "Restaurant",
+                          "Breakfast (surcharge)",
+                          "Fitness",
+                          "Pool",
+                          "Parking",
+                          "Wifi"
+                      ],
+                      "trip_adv_url": "http://www.tripadvisor.com/Hotel_Review-g295424-d299721-Reviews-Avari_Dubai_Hotel-Dubai_Emirate_of_Dubai.html?m=19454",
+                      "trip_rating": "4.0",
+                      "CheckInTime": "2:00 PM",
+                      "CheckOutTime": "12:00 PM",
+                      "checkin": "01-04-2024",
+                      "checkout": "03-04-2024",
+                      "first_rm_cancel_date": "",
+                      "first_room_details": {
+                          "Price": {
+                              "TBO_RoomPrice": 3926.26,
+                              "TBO_OfferedPriceRoundedOff": 6861,
+                              "TBO_PublishedPrice": 7115.56,
+                              "TBO_PublishedPriceRoundedOff": 7116,
+                              "Tax": 1072.89,
+                              "ExtraGuestCharge": 0,
+                              "ChildCharge": 0,
+                              "OtherCharges": 1861.48,
+                              "Discount": 0,
+                              "PublishedPrice": 6861,
+                              "RoomPrice": 6861,
+                              "PublishedPriceRoundedOff": 6861,
+                              "OfferedPrice": 6860.64,
+                              "OfferedPriceRoundedOff": 6861,
+                              "AgentCommission": 254.92,
+                              "AgentMarkUp": 0,
+                              "ServiceTax": 335.01,
+                              "TDS": 101.65,
+                              "ServiceCharge": 0,
+                              "TotalGSTAmount": 335.0109,
+                              "RoomPriceWoGST": 6861,
+                              "GSTPrice": 0,
+                              "CurrencyCode": "INR"
+                          },
+                          "room_name": "1 X DELUXE ROOM TWIN,1 KING BED,NONSMOKING",
+                          "Room_data": {
+                              "RoomUniqueId": "d9deec0968a561131e06fd3e73348af5*_*163*_*NB33lByivVSxUy6h"
+                          }
+                      }
+                  }
+              }
+          }
+      }
           return res.status(200).send({ data });
         });
      
