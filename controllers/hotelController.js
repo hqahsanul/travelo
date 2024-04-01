@@ -97,12 +97,12 @@ class hotelController {
         // }),
       
         request(options, (error, response, body) => {
-          if (error) {
-            return res.status(500).json({ error: 'Internal Server Error' });
-          }
-         let  data=JSON.parse(body);
+        //   if (error) {
+        //     return res.status(500).json({ error: 'Internal Server Error' });
+        //   }
+        //  let  data=JSON.parse(body);
 
-          data={
+          let data={
             "Status": 1,
             "Message": "",
             "Search": {
